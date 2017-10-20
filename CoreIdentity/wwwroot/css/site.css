@@ -1,0 +1,24 @@
+﻿body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+  /* Set padding to keep content from hitting the edges */
+  /* Set width on the form input elements since they're 100% wide by default */
+}
+body #body-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+body input,
+body select,
+body textarea {
+  max-width: 280px;
+}
+body .validation-summary-errors {
+  color: #b94a48;
+}
+body .validation-summary-valid {
+  display: none;
+}
+body .btn:hover {
+  cursor: pointer;
+}

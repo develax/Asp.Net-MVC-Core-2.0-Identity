@@ -1,0 +1,8 @@
+﻿@model CoreIdentity.Models.Home.HelloModel
+
+<div>
+    <h4>@string.Format("{0} {1}!", Model.TimeOfDay != null ? "Good " + Model.TimeOfDay.ToLowerInvariant() :  "Hello", Model.UserName)</h4>
+</div>
+<div>
+    <a asp-action="Index"><< Go Back</a>
+</div>

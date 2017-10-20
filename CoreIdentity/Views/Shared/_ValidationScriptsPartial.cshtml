@@ -1,0 +1,22 @@
+﻿<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script>
+    (function () {
+        var inputErrorClass = '@Constants.Validation.CSS.InvalidInput';
+        var messageErrorClass = '@Constants.Validation.CSS.InvalidMessage';
+        var defaultOptions = {
+            highlight: function (element) {
+                var $formGroup = $(element).closest(".form-group");
+                $formGroup.find("span[data-valmsg-for]").addClass(messageErrorClass);
+                $formGroup.find(".form-control").addClass(inputErrorClass);
+            },
+            unhighlight: function (element) {
+                var $formGroup = $(element).closest(".form-group");
+                $formGroup.find("span[data-valmsg-for]").removeClass(messageErrorClass);
+                $formGroup.find(".form-control").removeClass(inputErrorClass);
+            }
+        };
+
+        $.validator.setDefaults(defaultOptions);
+    })();
+</script>

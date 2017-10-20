@@ -1,0 +1,31 @@
+﻿@model CoreIdentity.Models.Home.HelloModel
+
+@{
+    ViewBag.Title = "Test Input Form";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TimeOfDay" class="control-label"></label>
+                <input asp-for="TimeOfDay" class="form-control" />
+                <span asp-validation-for="TimeOfDay"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit to Server" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
