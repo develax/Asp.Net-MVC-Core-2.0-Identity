@@ -11,16 +11,28 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using CoreIdentity.Core;
 using CoreIdentity.Core.Helpers;
+using CoreIdentity.Repository;
+using Microsoft.EntityFrameworkCore;
+using CoreIdentity.Repository.DbModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace CoreIdentity
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration Config { get; }
+        public IConfigurationRoot ConfigRoot { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration config, IHostingEnvironment env)
         {
-            Configuration = configuration;
+            Config = config;
+
+            ConfigRoot = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json").Build();
+
+            
+
             ChangeDefaultValidationClasses();
         }
 
@@ -28,18 +40,42 @@ namespace CoreIdentity
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = ConfigRoot["Data:ConnectionString"];
+            services.AddDbContext<AppIdentityDbContext>(op => op.UseSqlServer(connectionString));
+
+            services
+                .AddIdentity<AppUser, IdentityRole>(opt =>
+                {
+                    opt.User = new UserOptions()
+                    {
+                        RequireUniqueEmail = true
+                    };
+                    opt.Password = new PasswordOptions()
+                    {
+                        RequireDigit = false,
+                        RequireUppercase = false,
+                        RequiredLength = 6,
+                        RequireLowercase = false,
+                        RequireNonAlphanumeric = false
+                    };
+                })
+                .AddEntityFrameworkStores<AppIdentityDbContext>();
+
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseStatusCodePages();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
