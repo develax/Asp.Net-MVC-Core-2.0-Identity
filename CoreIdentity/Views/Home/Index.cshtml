@@ -1,31 +1,21 @@
-﻿@model CoreIdentity.Models.Home.HelloModel
+﻿@model Dictionary<string, object>
 
-@{
-    ViewBag.Title = "Test Input Form";
-}
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Index">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TimeOfDay" class="control-label"></label>
-                <input asp-for="TimeOfDay" class="form-control" />
-                <span asp-validation-for="TimeOfDay"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Submit to Server" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div class="bg-primary panel-body">
+    <h4>User Details</h4>
 </div>
 
+<table class="table table-condensed table-bordered">
+    @foreach (var kvp in Model)
+    {
+        <tr><th>@kvp.Key</th><td>@kvp.Value</td></tr>
+    }
+</table>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<a asp-controller="Admin" class="btn btn-primary">Admin</a>
+<a asp-controller="RoleAdmin" class="btn btn-primary">Roles</a>
+
+@if (User?.Identity?.IsAuthenticated ?? false)
+{
+    <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Logout</a>
 }
+

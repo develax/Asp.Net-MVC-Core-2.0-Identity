@@ -31,8 +31,6 @@ namespace CoreIdentity
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json").Build();
 
-            
-
             ChangeDefaultValidationClasses();
         }
 
@@ -41,9 +39,8 @@ namespace CoreIdentity
         public void ConfigureServices(IServiceCollection services)
         {
             string connectionString = ConfigRoot["Data:ConnectionString"];
-            services.AddDbContext<AppIdentityDbContext>(op => op.UseSqlServer(connectionString));
-
             services
+                .AddDbContext<AppIdentityDbContext>(op => op.UseSqlServer(connectionString))
                 .AddIdentity<AppUser, IdentityRole>(opt =>
                 {
                     opt.User = new UserOptions()
@@ -59,13 +56,16 @@ namespace CoreIdentity
                         RequireNonAlphanumeric = false
                     };
                 })
-                .AddEntityFrameworkStores<AppIdentityDbContext>();
+                .AddEntityFrameworkStores<AppIdentityDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMvc();
+            services.AddScoped<IDbInitializer, DbInitializer>();
+            services.AddSingleton<IConfigurationRoot>(ConfigRoot);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDbInitializer dbInitializer)
         {
             app.UseStatusCodePages();
 
@@ -84,6 +84,9 @@ namespace CoreIdentity
                     template: "{controller=Home}/{action=Index}/{id?}"
                     );
             });
+
+            // Init Admin user with Role.
+            dbInitializer.CreateAdminAccount_Async().Wait();
         }
 
         #region Helpers

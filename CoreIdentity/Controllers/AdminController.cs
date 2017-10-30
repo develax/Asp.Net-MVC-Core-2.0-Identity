@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using CoreIdentity.Repository.DbModels;
 using Microsoft.AspNetCore.Identity;
 using CoreIdentity.Models.Admin;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoreIdentity.Controllers
 {
@@ -28,6 +29,7 @@ namespace CoreIdentity.Controllers
             _passwordHasher = passHash;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View(_userManager.Users);

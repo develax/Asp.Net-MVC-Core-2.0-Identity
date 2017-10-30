@@ -1,6 +1,8 @@
-﻿@using CoreIdentity.Core
-@using System.Collections.Generic
+﻿@using Microsoft.AspNetCore.Identity
 @using CoreIdentity.Repository.DbModels
+@using CoreIdentity.Core
+@using System.Collections.Generic
 @using CoreIdentity.Models.Admin
 @inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper CoreIdentity.Core.TagHelpers.*, CoreIdentity
