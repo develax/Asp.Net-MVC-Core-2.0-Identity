@@ -1,4 +1,4 @@
--= Sample project with Identity in ASP.NET Core 2.0 =-
+-= Sample project using Identity in ASP.NET Core 2.0 =-
 
 * Seeding admin user at the first run.
 * Creating and editing users and roles.
