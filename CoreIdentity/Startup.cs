@@ -61,7 +61,7 @@ namespace CoreIdentity
 
             services.AddMvc();
             services.AddScoped<IDbInitializer, DbInitializer>();
-            services.AddSingleton<IConfigurationRoot>(ConfigRoot);
+            services.AddSingleton(ConfigRoot);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,8 +92,8 @@ namespace CoreIdentity
         #region Helpers
 
         /// <summary>
-        /// Change from default validation CSS classes to 'Bootstrap 4 beta' validation classes.
-        /// In particular it changes values of a bunch of static readonly variables in HtmlHelper class.
+        /// It changes replaces default 'APS.NET MVC validation CSS classes' with 'Bootstrap 4 validation classes'.
+        /// In particular it changes values of a bunch of static readonly variables within HtmlHelper class.
         /// </summary>
         private void ChangeDefaultValidationClasses()
         {
