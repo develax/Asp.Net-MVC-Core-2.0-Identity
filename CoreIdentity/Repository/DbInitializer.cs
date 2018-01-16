@@ -71,7 +71,7 @@ namespace CoreIdentity.Repository
                 result = await _userManager.AddToRoleAsync(user, role);
 
                 if (!result.Succeeded)
-                    OnIdentityResultFailed(string.Format("Can't set user '{0}' in user '{1}'", username, role), result.Errors);
+                    OnIdentityResultFailed(string.Format("Can't set user '{0}' in role '{1}'", username, role), result.Errors);
             }
         }
 
